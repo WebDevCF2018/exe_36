@@ -71,4 +71,22 @@ SELECT n.idnews, n.title, SUBSTR(n.content, 1, 220) AS content, n.publication, G
 			ON h.categ_idcateg = c.idcateg
     WHERE n.visible=1
     GROUP BY n.idnews;    
+
+
+# sélection des détails d'une news
+SELECT n.title, n.content, n.publication,
+  GROUP_CONCAT(c.idcateg) AS idcateg, 
+  GROUP_CONCAT(c.name SEPARATOR '_€.€_') AS categname,
+  u.name as username, u.iduser
+	      FROM news n
+		    LEFT JOIN news_has_categ h
+			  ON h.news_idnews = n.idnews
+		    LEFT JOIN categ c
+			  ON h.categ_idcateg = c.idcateg
+			INNER JOIN user u 
+				ON n.user_iduser= u.iduser
+          WHERE n.visible=1 AND n.idnews=1
+            GROUP BY n.idnews;    
+    
+    
     
