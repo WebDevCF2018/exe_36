@@ -48,6 +48,26 @@ function listNewsCateg($db,$id){
     }
 }
 
+// affiche les news écrites par l'auteur
+function listNewsUser($db,$id){
+    $iduser = (int) $id;
+    $sql="SELECT n.idnews, n.title,  n.publication,
+  GROUP_CONCAT(c.idcateg) AS idcateg, 
+  GROUP_CONCAT(c.name SEPARATOR '_€.€_') AS categname
+	      FROM news n
+		    LEFT JOIN news_has_categ h
+			  ON h.news_idnews = n.idnews
+		    LEFT JOIN categ c
+			  ON h.categ_idcateg = c.idcateg
+			INNER JOIN user u 
+				ON n.user_iduser= u.iduser
+          WHERE n.visible=1 AND u.iduser=$iduser
+            GROUP BY n.idnews;";
+    $recupNews = mysqli_query($db,$sql) or die(mysqli_error($db));
+
+    return (mysqli_num_rows($recupNews))? mysqli_fetch_all($recupNews,MYSQLI_ASSOC): false;
+}
+
 // affiche toutes les news sur l'accueil
 function listNews($db){
     $sql="SELECT n.idnews, n.title, SUBSTR(n.content, 1, 220) AS content, n.publication, GROUP_CONCAT(c.idcateg) AS idcateg, GROUP_CONCAT(c.name SEPARATOR '_€.€_') AS name 

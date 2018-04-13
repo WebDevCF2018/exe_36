@@ -88,5 +88,10 @@ SELECT n.title, n.content, n.publication,
           WHERE n.visible=1 AND n.idnews=1
             GROUP BY n.idnews;    
     
-    
+# sélection d'un utilisateur grâce à son login et mot de passe, avec ses permissions
+SELECT u.iduser, u.login, u.name AS username, p.name AS permissionname, p.level
+	FROM user u 
+	INNER JOIN permission p 
+		ON u.permission_idpermission = p.idpermission
+	WHERE u.login='admin' AND u.pwd='admin';
     
