@@ -24,6 +24,14 @@
                 <label for="exampleInputPassword1">Mot de passe</label>
                 <input name="thePass" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" required>
             </div>
+            <?php
+            if(isset($erreur_login)) {
+                ?>
+<div class="alert-danger"><?=$erreur_login?></div><br>
+
+                <?php
+            }
+            ?>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>

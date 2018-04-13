@@ -64,14 +64,24 @@ if(isset($_GET['news'])) {
     }else{
         $connect = loginUser($mysqli,$_POST['theLogin'],$_POST['thePass']);
         if($connect){
-            // création de la session
-            $_SESSION['myKey'] = session_id(); // id de session
+            /*
             $_SESSION['idutil'] = $connect['iduser']; // iduser
             $_SESSION['login'] = $connect['login'];
             $_SESSION['name'] = $connect['username'];
             $_SESSION['permissionname'] = $connect['permissionname'];
-        var_dump($_SESSION);
+            plus simple:
+            */
+            // on met toutes les variables récupérées depuis la db directement dans la session
+            $_SESSION = $connect;
+            // stockage de la clef de session (PHPSESSID)
+            $_SESSION['myKey'] = session_id(); // id de session
 
+            // on réactulise sur l'accueil pour passer en mode "admin"
+            header("Location: ./");
+
+        }else{
+            $erreur_login = "Login et/ou mot de passe incorrect";
+            require_once "v/login.html.php";
         }
     }
 

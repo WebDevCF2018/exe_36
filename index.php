@@ -13,8 +13,8 @@ require_once "config.php";
 require_once "m/ConnectDBModel.php";
 
 
-// si nous sommes connectés
-if(isset($_SESSION['myKey'])){
+// si nous sommes connectés ET que la session est valide
+if(isset($_SESSION['myKey'])&&$_SESSION['myKey']==session_id()){
     require_once "c/AdminController.php";
 
 // sinon on appel le contrôleur public
