@@ -37,7 +37,7 @@
         <p><?php
             // on affiche les 220 derniers caractères venant de la requête, on veut éviter de couper un mot, on cherche la dernière position de l'espace strrpos($item['content']," "), et on coupe la chaîne avec substr($chaine, 0, position dernier espace)
             echo substr($item['content'],0,strrpos($item['content']," "));
-            ?> ... <a href="?news=<?=$item['idnews']?>">lire la suite</p>
+            ?> ... <a href="?news=<?=$item['idnews']?>">lire la suite</a></p>
         <hr>
         <?php
         }

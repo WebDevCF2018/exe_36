@@ -9,6 +9,9 @@
             <li class="nav-item active">
                 <a class="nav-link" href="./">Accueil <span class="sr-only">(current)</span></a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="?ajout">Ajouter une News</a>
+            </li>
         </ul>
         <a class="btn btn-outline-secondary" href="?logout">Déconnexion</a>
     </div>

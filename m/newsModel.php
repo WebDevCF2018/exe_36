@@ -86,3 +86,12 @@ function listNews($db){
     }
 }
 
+// création d'une news
+
+function createNews($db,$idutil,$titre,$texte,$categ=[]){
+    $titre = htmlspecialchars(strip_tags(trim($titre)),ENT_QUOTES);
+    $texte = htmlspecialchars(strip_tags($texte),ENT_QUOTES);
+    $idutil = (int) $idutil;
+    $sql = "INSERT INTO news (title,content,user_iduser) VALUES ('$titre','$texte',$idutil);";
+    $req = mysqli_query($db,$sql) or die(mysqli_error($db));
+}

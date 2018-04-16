@@ -14,7 +14,7 @@ function viewCateg($db,$id){
         return false;
     }
 }
-// pour menu (public)
+// pour menu (public) - pour checkboxes Ajout (admin)
 function listCateg($db){
     $sql = "SELECT idcateg, name FROM categ ORDER BY idcateg ASC;";
     $recup = mysqli_query($db,$sql);
