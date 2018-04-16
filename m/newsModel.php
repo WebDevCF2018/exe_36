@@ -39,7 +39,8 @@ function listNewsCateg($db,$id){
 		INNER JOIN categ c
 			ON h.categ_idcateg = c.idcateg
     WHERE n.visible=1 AND c.idcateg=$idCateg
-    GROUP BY n.idnews;";
+    GROUP BY n.idnews
+    ORDER BY n.publication DESC;";
     $recup = mysqli_query($db,$sql);
     if(mysqli_num_rows($recup)){
         return mysqli_fetch_all($recup,MYSQLI_ASSOC);
@@ -62,7 +63,8 @@ function listNewsUser($db,$id){
 			INNER JOIN user u 
 				ON n.user_iduser= u.iduser
           WHERE n.visible=1 AND u.iduser=$iduser
-            GROUP BY n.idnews;";
+            GROUP BY n.idnews
+            ORDER BY n.publication DESC;";
     $recupNews = mysqli_query($db,$sql) or die(mysqli_error($db));
 
     return (mysqli_num_rows($recupNews))? mysqli_fetch_all($recupNews,MYSQLI_ASSOC): false;
@@ -77,7 +79,8 @@ function listNews($db){
 		LEFT JOIN categ c
 			ON h.categ_idcateg = c.idcateg
     WHERE n.visible=1
-    GROUP BY n.idnews;";
+    GROUP BY n.idnews
+    ORDER BY n.publication DESC;";
     $recup = mysqli_query($db,$sql);
     if(mysqli_num_rows($recup)){
         return mysqli_fetch_all($recup,MYSQLI_ASSOC);
@@ -89,9 +92,28 @@ function listNews($db){
 // création d'une news
 
 function createNews($db,$idutil,$titre,$texte,$categ=[]){
+
     $titre = htmlspecialchars(strip_tags(trim($titre)),ENT_QUOTES);
     $texte = htmlspecialchars(strip_tags($texte),ENT_QUOTES);
     $idutil = (int) $idutil;
+
     $sql = "INSERT INTO news (title,content,user_iduser) VALUES ('$titre','$texte',$idutil);";
+
     $req = mysqli_query($db,$sql) or die(mysqli_error($db));
+
+    // si on a sélectionné des catégories
+    if(!empty($categ)){
+        // on récupère l'id de la news insérée
+        $idnews = mysqli_insert_id($db);
+        // préparation de la requête avant concaténation
+        $sql = "INSERT INTO news_has_categ (news_idnews,categ_idcateg) VALUES ";
+        // tant qu'on a des id's de categ
+        foreach($categ as $item){
+            // on concatène les id nécessaires à notre requête
+            $sql .= "($idnews,$item),";
+        }
+        // requête effectuée en retirant la dernière virgule pour éviter la faute sql
+        mysqli_query($db,substr($sql,0,-1));
+
+    }
 }

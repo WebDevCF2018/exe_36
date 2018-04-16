@@ -21,7 +21,12 @@ if(isset($_GET['logout'])){
         require_once "v/adminAjout.html.php";
     }else{ // formulaire envoyé
         if(isset($_POST['thetitle'],$_POST['thecontent'])){
-          $recup = createNews($mysqli,$_SESSION['iduser'],$_POST['thetitle'],$_POST['thecontent']);
+            // si on a coché des catégories
+            if(!empty($_POST['catid'])){
+                $recup = createNews($mysqli, $_SESSION['iduser'], $_POST['thetitle'], $_POST['thecontent'],$_POST['catid']);
+            }else { // pas de catégories
+                $recup = createNews($mysqli, $_SESSION['iduser'], $_POST['thetitle'], $_POST['thecontent']);
+            }
         }
     }
 }else {
