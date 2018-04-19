@@ -4,9 +4,11 @@
  */
 
 // affiche le détail d'une news
-function viewNews($db,$id){
+function viewNews($db,$id,$visible=true){
     $id = (int) $id;
-    $sql="SELECT n.title, n.content, n.publication,
+    // création d'une variable pour la requête basée sur $visible
+    $visibleSql = ($visible)?"n.visible=1 AND ":"";
+    $sql="SELECT n.idnews, n.title, n.content, n.publication,
   GROUP_CONCAT(c.idcateg) AS idcateg, 
   GROUP_CONCAT(c.name SEPARATOR '_€.€_') AS categname,
   u.name as username, u.iduser
@@ -17,7 +19,7 @@ function viewNews($db,$id){
 			  ON h.categ_idcateg = c.idcateg
 			INNER JOIN user u 
 				ON n.user_iduser= u.iduser
-          WHERE n.visible=1 AND n.idnews=$id
+          WHERE $visibleSql n.idnews=$id
             GROUP BY n.idnews;";
     $recupNews = mysqli_query($db,$sql) or die(mysqli_error($db));
     // si on récupère une news
@@ -138,4 +140,41 @@ function createNews($db,$idutil,$titre,$texte,$categ=array()){
     }
     // réponse de la fonction: return(si on a ajouté au moins une ligne)?(true) : (false)
     return (mysqli_affected_rows($db))?true:false;
+}
+
+/*
+ * Mise à jour d'une news
+ * @arg => $db => obj(connexion mysqli)
+ * @arg => $idnews => int
+ * @arg => $tabPost => array[$_POST]
+ * @return => boolean
+ */
+function updateNews($db,$idnews,$tabPost){
+    $idnews=(int)$idnews;
+    $title = $tabPost['thetitle'];
+    /*
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     * ON EST ICI
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     */
+    return $title;
 }
