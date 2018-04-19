@@ -41,9 +41,9 @@
 <br>
 
             <?php
-            if(isset($erreur_login)) {
+            if(isset($erreur)) {
                 ?>
-<div class="alert-danger"><?=$erreur_login?></div><br>
+<br><div class="alert-danger"><?=$erreur?></div><br>
 
                 <?php
             }

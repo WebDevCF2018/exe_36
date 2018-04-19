@@ -27,6 +27,18 @@ if(isset($_GET['logout'])){
             }else { // pas de catégories
                 $recup = createNews($mysqli, $_SESSION['iduser'], $_POST['thetitle'], $_POST['thecontent']);
             }
+            // si récup vaut vrai (==true)
+            if($recup){
+                // redirection sur l'accueil
+                header("Location: ./");
+            }else{ // false
+                // création de la faute
+                $erreur = "Erreur lors de l'insertion de votre article";
+                // récupération des catégories
+                $categ = listCateg($mysqli);
+                // appel de la vue
+                require_once "v/adminAjout.html.php";
+            }
         }
     }
 }else {

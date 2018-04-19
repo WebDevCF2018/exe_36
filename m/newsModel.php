@@ -91,11 +91,14 @@ function listNews($db){
 
 // création d'une news
 
-function createNews($db,$idutil,$titre,$texte,$categ=[]){
+function createNews($db,$idutil,$titre,$texte,$categ=array()){
 
     $titre = htmlspecialchars(strip_tags(trim($titre)),ENT_QUOTES);
     $texte = htmlspecialchars(strip_tags($texte),ENT_QUOTES);
     $idutil = (int) $idutil;
+
+    // si après traitement une des variables est vide ou l'id vaut 0
+    if(empty($titre)||empty($texte)||$idutil==0) return false;
 
     $sql = "INSERT INTO news (title,content,user_iduser) VALUES ('$titre','$texte',$idutil);";
 
@@ -109,6 +112,7 @@ function createNews($db,$idutil,$titre,$texte,$categ=[]){
         $sql = "INSERT INTO news_has_categ (news_idnews,categ_idcateg) VALUES ";
         // tant qu'on a des id's de categ
         foreach($categ as $item){
+            $item = (int) $item;
             // on concatène les id nécessaires à notre requête
             $sql .= "($idnews,$item),";
         }
