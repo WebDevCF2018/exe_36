@@ -114,6 +114,7 @@ function createNews($db,$idutil,$titre,$texte,$categ=[]){
         }
         // requête effectuée en retirant la dernière virgule pour éviter la faute sql
         mysqli_query($db,substr($sql,0,-1));
-
     }
+    // réponse de la fonction: return(si on a ajouté au moins une ligne)?(true) : (false)
+    return (mysqli_affected_rows($db))?true:false;
 }

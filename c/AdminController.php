@@ -22,7 +22,7 @@ if(isset($_GET['logout'])){
     }else{ // formulaire envoyé
         if(isset($_POST['thetitle'],$_POST['thecontent'])){
             // si on a coché des catégories
-            if(!empty($_POST['catid'])){
+            if(isset($_POST['catid'])){
                 $recup = createNews($mysqli, $_SESSION['iduser'], $_POST['thetitle'], $_POST['thecontent'],$_POST['catid']);
             }else { // pas de catégories
                 $recup = createNews($mysqli, $_SESSION['iduser'], $_POST['thetitle'], $_POST['thecontent']);

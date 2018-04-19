@@ -47,7 +47,7 @@
 
                 <?php
             }
-            var_dump($_POST);
+            //var_dump($_POST);
             ?>
             <br><button type="submit" class="btn btn-primary">Envoyer</button>
         </form></div>

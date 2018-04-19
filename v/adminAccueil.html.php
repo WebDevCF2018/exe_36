@@ -18,6 +18,7 @@ include_once "header.html.php";
         </div>
     </div>
     <div class="container">
+        <h3>Vos articles</h3>
         <pre><?php
         var_dump($_SESSION);
         ?></pre>

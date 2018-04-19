@@ -63,6 +63,7 @@ if(isset($_GET['news'])) {
         require_once "v/login.html.php";
     }else{
         $connect = loginUser($mysqli,$_POST['theLogin'],$_POST['thePass']);
+        // on s'est connecté
         if($connect){
             /*
             $_SESSION['idutil'] = $connect['iduser']; // iduser
@@ -73,7 +74,7 @@ if(isset($_GET['news'])) {
             */
             // on met toutes les variables récupérées depuis la db directement dans la session
             $_SESSION = $connect;
-            // stockage de la clef de session (PHPSESSID)
+            // on ajoute à la variable super globale de session 'myKey' qui stoque la clef de session (PHPSESSID)
             $_SESSION['myKey'] = session_id(); // id de session
 
             // on réactulise sur l'accueil pour passer en mode "admin"

@@ -21,6 +21,7 @@ function loginUser($db,$login,$pass){
 
     $recupLogin = mysqli_query($db,$sql) or die(mysqli_error($db));
 
+    // condition ternaire envoyant (return) ( si true) {?} un tableau associatif, sinon {:} false... : false
     return (mysqli_num_rows($recupLogin))?mysqli_fetch_assoc($recupLogin):false;
 }
 
