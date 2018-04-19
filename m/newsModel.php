@@ -49,10 +49,27 @@ function listNewsCateg($db,$id){
     }
 }
 
-// affiche les news écrites par l'auteur
-function listNewsUser($db,$id){
+// affiche les news écrites par l'auteur sur leur profil ($desc et $visible par défaut) et sur l'accueil de leur administration ($desc = true et $visible = false)
+function listNewsUser($db,$id,$desc=false,$visible=true){
     $iduser = (int) $id;
-    $sql="SELECT n.idnews, n.title,  n.publication,
+    // si la desc est nécessaire
+    if($desc){
+        // on prend +- 300 caractères
+        $descSql = "SUBSTRING(n.content,1,300) AS content, ";
+
+    }else{
+        // on ne fait rien
+        $descSql ="";
+    }
+    // si on veut afficher toutes les news, même non validées (visible=false)
+    if(!$visible){
+        $visibleSql="";
+        $recupVisible="n.visible, ";
+    }else{
+        $visibleSql="n.visible=1 AND ";
+        $recupVisible="";
+    }
+    $sql="SELECT n.idnews, n.title, $descSql $recupVisible n.publication,
   GROUP_CONCAT(c.idcateg) AS idcateg, 
   GROUP_CONCAT(c.name SEPARATOR '_€.€_') AS categname
 	      FROM news n
@@ -62,7 +79,7 @@ function listNewsUser($db,$id){
 			  ON h.categ_idcateg = c.idcateg
 			INNER JOIN user u 
 				ON n.user_iduser= u.iduser
-          WHERE n.visible=1 AND u.iduser=$iduser
+          WHERE $visibleSql u.iduser=$iduser
             GROUP BY n.idnews
             ORDER BY n.publication DESC;";
     $recupNews = mysqli_query($db,$sql) or die(mysqli_error($db));

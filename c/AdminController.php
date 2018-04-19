@@ -42,5 +42,7 @@ if(isset($_GET['logout'])){
         }
     }
 }else {
+    // on récupère toutes les news de l'utilisateur connecté, avec la description (true), et même les news non validées (news.visible=0) en plus des valides
+    $recup = listNewsUser($mysqli,$_SESSION['iduser'],true,false);
     require_once "v/adminAccueil.html.php";
 }
