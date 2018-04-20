@@ -151,30 +151,29 @@ function createNews($db,$idutil,$titre,$texte,$categ=array()){
  */
 function updateNews($db,$idnews,$tabPost){
     $idnews=(int)$idnews;
-    $title = $tabPost['thetitle'];
-    /*
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     * ON EST ICI
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     */
-    return $title;
+    $title = htmlspecialchars(strip_tags(trim($tabPost['thetitle'])), ENT_QUOTES);
+    $texte = htmlspecialchars(strip_tags($tabPost['thecontent']), ENT_QUOTES);
+    // si un des champs est vide après vérification
+    if(empty($title)||empty($texte)) return false;
+    // mise à jour de la news
+    $sql = "UPDATE news SET title='$title', content='$texte' WHERE idnews = $idnews";
+    $req = mysqli_query($db,$sql) or die(mysqli_error($db));
+
+        // on va supprimer les entrées de la table news_has_categ liées à cet article
+        $sql = "DELETE FROM news_has_categ WHERE news_idnews = $idnews";
+        mysqli_query($db,$sql) or die(mysqli_error($db));
+        // si on a coché une ou des sections
+        if(isset($tabPost['catid'])){
+            // on pérpare une requête pour insérer les liens avec les section
+            $sql = "INSERT INTO news_has_categ (news_idnews,categ_idcateg) VALUES ";
+            foreach($tabPost['catid'] as $idcateg){
+                $idcateg = (int) $idcateg;
+                $sql .="($idnews,$idcateg),";
+            }
+            mysqli_query($db,substr($sql,0,-1)) or die(mysqli_error($db));
+
+        return true;
+    }else {
+        return true;
+    }
 }

@@ -55,7 +55,17 @@ if(isset($_GET['logout'])){
         require_once "v/adminUpdate.html.php";
     }else{
         // traitement de l'envoi
-        echo updateNews($mysqli,$update,$_POST);
+        if(updateNews($mysqli,$update,$_POST)){
+            // redirection sur l'accueil
+            header("Location: ./");
+        }else{
+            // création de la faute
+            $erreur = "Erreur lors de la modification de votre article";
+            $categ = listCateg($mysqli);
+            $recup = viewNews($mysqli,$update,false);
+            // appel de la vue
+            require_once "v/adminUpdate.html.php";
+        }
     }
 }else {
     // on récupère toutes les news de l'utilisateur connecté, avec la description (true), et même les news non validées (news.visible=0) en plus des valides
